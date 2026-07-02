@@ -15,5 +15,7 @@
   "id_command": "Поточний ID чату: <code>{id}</code>",
   "processing_message": "Відправляємо ваше повідомлення...",
   "message_processed": "Відправлено!",
-  "forwarding_prefix": "Пересилання, ID [{id}]:"
+  "forwarding_prefix": "Пересилання, ID [{id}]:",
+  "user_banned": "Користувач {user_id} заблокований.",
+  "user_unbanned": "Користувач {user_id} розблокований."
 }

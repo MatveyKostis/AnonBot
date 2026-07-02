@@ -52,6 +52,8 @@ A Telegram bot designed for secure message forwarding with captcha verification.
 - `/stats`: View total user count.
 - `/logs`: See a list of the 10 most recent redirected messages.
 - `/view <ID>`: View detailed information about a specific message by its ID.
+- `/ban <USER_ID>`: Block a user from using the bot.
+- `/unban <USER_ID>`: Unblock a user.
 
 ## Commands
 

@@ -15,5 +15,7 @@
   "id_command": "Current Chat ID: <code>{id}</code>",
   "processing_message": "Forwarding your message...",
   "message_processed": "Forwarded!",
-  "forwarding_prefix": "Forwarding, ID [{id}]:"
+  "forwarding_prefix": "Forwarding, ID [{id}]:",
+  "user_banned": "User {user_id} has been banned.",
+  "user_unbanned": "User {user_id} has been unbanned."
 }

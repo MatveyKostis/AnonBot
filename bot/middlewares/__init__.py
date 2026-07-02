@@ -40,3 +40,19 @@ class I18nMiddleware(BaseMiddleware):
             data["locale"] = "en"
         
         return await handler(event, data)
+
+
+class BanMiddleware(BaseMiddleware):
+    async def __call__(
+        self,
+        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+        event: TelegramObject,
+        data: Dict[str, Any],
+    ) -> Any:
+        from_user = data.get("event_from_user")
+        if from_user:
+            from bot.utils.db import db
+            if db.is_user_banned(from_user.id):
+                return
+        
+        return await handler(event, data)

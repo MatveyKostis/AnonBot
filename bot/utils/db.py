@@ -18,7 +18,8 @@ class Database:
                     username TEXT,
                     full_name TEXT,
                     language_code TEXT,
-                    first_seen TIMESTAMP
+                    first_seen TIMESTAMP,
+                    is_banned INTEGER DEFAULT 0
                 )
             """)
             conn.execute("""
@@ -36,11 +37,34 @@ class Database:
 
     def log_user(self, user):
         with self.get_connection() as conn:
+            # Check if user already exists to preserve is_banned status if we were using INSERT OR REPLACE
+            # But INSERT OR REPLACE would overwrite is_banned if we don't include it.
+            # Better to use INSERT OR IGNORE and then UPDATE or a more complex query.
             conn.execute("""
-                INSERT OR REPLACE INTO users (user_id, username, full_name, language_code, first_seen)
+                INSERT INTO users (user_id, username, full_name, language_code, first_seen)
                 VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(user_id) DO UPDATE SET
+                    username=excluded.username,
+                    full_name=excluded.full_name,
+                    language_code=excluded.language_code
             """, (user.id, user.username, user.full_name, user.language_code, datetime.now()))
             conn.commit()
+
+    def ban_user(self, user_id):
+        with self.get_connection() as conn:
+            conn.execute("UPDATE users SET is_banned = 1 WHERE user_id = ?", (user_id,))
+            conn.commit()
+
+    def unban_user(self, user_id):
+        with self.get_connection() as conn:
+            conn.execute("UPDATE users SET is_banned = 0 WHERE user_id = ?", (user_id,))
+            conn.commit()
+
+    def is_user_banned(self, user_id):
+        with self.get_connection() as conn:
+            cursor = conn.execute("SELECT is_banned FROM users WHERE user_id = ?", (user_id,))
+            row = cursor.fetchone()
+            return bool(row[0]) if row else False
 
     def log_message(self, message):
         self.log_user(message.from_user)

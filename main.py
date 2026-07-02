@@ -8,7 +8,7 @@ from aiogram.enums import ParseMode
 
 from bot.config import settings
 from bot.handlers import get_handlers_router
-from bot.middlewares import LoggingMiddleware, I18nMiddleware
+from bot.middlewares import LoggingMiddleware, I18nMiddleware, BanMiddleware
 from bot.utils.db import db
 from bot.ui_commands import set_bot_commands
 
@@ -37,6 +37,7 @@ async def main():
 
     # Register middlewares (e.g. LoggingMiddleware)
     dp.update.outer_middleware(LoggingMiddleware())
+    dp.update.outer_middleware(BanMiddleware())
     dp.update.outer_middleware(I18nMiddleware())
 
     # Register routers (handlers)

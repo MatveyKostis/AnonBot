@@ -52,3 +52,25 @@ async def cmd_view(message: Message, locale: str):
                            content_type=log[4], 
                            timestamp=log[5], 
                            text=log[6]))
+
+@router.message(Command("ban"), F.from_user.id.in_(settings.admins))
+async def cmd_ban(message: Message, locale: str):
+    args = message.text.split()
+    if len(args) < 2 or not args[1].isdigit():
+        await message.answer("Usage: /ban [user_id]")
+        return
+    
+    user_id = int(args[1])
+    db.ban_user(user_id)
+    await message.answer(_("user_banned", locale=locale, user_id=user_id))
+
+@router.message(Command("unban"), F.from_user.id.in_(settings.admins))
+async def cmd_unban(message: Message, locale: str):
+    args = message.text.split()
+    if len(args) < 2 or not args[1].isdigit():
+        await message.answer("Usage: /unban [user_id]")
+        return
+    
+    user_id = int(args[1])
+    db.unban_user(user_id)
+    await message.answer(_("user_unbanned", locale=locale, user_id=user_id))
