@@ -1,8 +1,9 @@
 {
-  "welcome": "Welcome! Send me any message (text, image, video, etc.) and I will redirect it after you solve a simple captcha.",
+  "welcome": "Welcome! Send me any message (text, image, video, etc.) and I will redirect it to the admins after you solve a simple captcha.",
+  "welcome_no_captcha": "Welcome! Send me any message (text, image, video, etc.) and I will redirect it to the admins",
   "solve_captcha": "Please type the letters/numbers you see on the image to verify you're human.",
   "redirecting": "Redirecting your message...",
-  "captcha_solved": "Captcha solved! Your message has been redirected.",
+  "captcha_solved": "Captcha solved! Your message has been redirected to the admins.",
   "captcha_error": "Captcha solved, but there was an error redirecting your message.",
   "incorrect_captcha": "Incorrect captcha. Please try again with this new image:",
   "stats_title": "Bot Stats:",

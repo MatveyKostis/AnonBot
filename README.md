@@ -4,10 +4,10 @@ A Telegram bot designed for secure message forwarding with captcha verification.
 
 ## Features
 
-- **Captcha Verification**: Users must solve an image-based captcha before their messages are forwarded.
+- **Captcha Verification**: Users have to solve an image-based captcha before their messages are forwarded (can be disabled).
 - **Support for All Media**: Forwarding works for text, photos, videos, documents, audio, and voice messages.
-- **Message Redirection**: Verified messages are automatically redirected to a configured group chat.
-- **Anonymized Forwarding**: Messages are forwarded with a custom prefix `Forwarding, ID [MSG_ID]:`, maintaining privacy while allowing for message tracking.
+- **Message Redirection**: Verified messages are automatically redirected to the admins.
+- **Anonymized Forwarding**: Messages are forwarded with a custom prefix `Forwarding, ID [MSG_ID]:`, maintaining privacy while allowing admins to track messages.
 - **Locale Support**: Built-in support for multiple languages (defaulting to English).
 - **Admin Panel**: Authorized admins can access usage statistics and message logs.
 
@@ -46,7 +46,7 @@ A Telegram bot designed for secure message forwarding with captcha verification.
 1. Start the bot with `/start`.
 2. Send any message or media.
 3. Solve the image captcha by typing the characters shown.
-4. Once solved, your message is redirected to the destination group.
+4. Once solved, your message is redirected to the admins.
 
 ### For Admins
 - `/stats`: View total user count.

@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 async def main():
-    logger.info("Initializing AWB...")
+    logger.info("Initializing Bot...")
 
     # Initialize Bot instance with default HTML parsing mode
     bot = Bot(
@@ -75,4 +75,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
-        logger.info("AWB execution stopped.")
+        logger.info("Bot execution stopped.")

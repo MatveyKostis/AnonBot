@@ -17,7 +17,8 @@ class CaptchaStates(StatesGroup):
 @router.message(CommandStart())
 async def cmd_start(message: Message, locale: str):
     db.log_user(message.from_user)
-    await message.answer(_("welcome", locale=locale))
+    welcome_key = "welcome_no_captcha" if settings.disable_captcha else "welcome"
+    await message.answer(_(welcome_key, locale=locale))
 
 @router.message(CaptchaStates.waiting_for_captcha)
 async def process_captcha(message: Message, state: FSMContext, bot: Bot, locale: str):
