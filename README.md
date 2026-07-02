@@ -1,4 +1,4 @@
-# Frankenstein Bot
+# AWB (Awfully Written Bot)
 
 A Telegram bot designed for secure message forwarding with captcha verification. 
 
