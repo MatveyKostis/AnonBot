@@ -1,4 +1,4 @@
-from aiogram import Router, F, Bot
+from aiogram import Router, F, Bot, html
 from aiogram.filters import CommandStart
 from aiogram.types import Message, BufferedInputFile
 from aiogram.fsm.context import FSMContext
@@ -34,20 +34,21 @@ async def process_captcha(message: Message, state: FSMContext, bot: Bot, locale:
             target_chat_id = settings.group_chat_id
             
             if data.get('has_media'):
-                new_caption = prefix
+                new_caption = html.quote(prefix)
                 if data.get('original_caption'):
-                    new_caption += f"\n{data.get('original_caption')}"
+                    new_caption += f"\n{html.quote(data.get('original_caption'))}"
                 
                 await bot.copy_message(
                     chat_id=target_chat_id,
                     from_chat_id=message.chat.id,
                     message_id=original_msg_id,
-                    caption=new_caption
+                    caption=new_caption,
+                    parse_mode=None # Use default or specific? Default is HTML.
                 )
             elif data.get('is_text'):
                 await bot.send_message(
                     chat_id=target_chat_id,
-                    text=f"{prefix}\n{data.get('original_text')}"
+                    text=f"{html.quote(prefix)}\n{html.quote(data.get('original_text'))}"
                 )
             else:
                 # Other types (stickers, etc.)
@@ -56,7 +57,7 @@ async def process_captcha(message: Message, state: FSMContext, bot: Bot, locale:
                     from_chat_id=message.chat.id,
                     message_id=original_msg_id
                 )
-                await bot.send_message(chat_id=target_chat_id, text=prefix)
+                await bot.send_message(chat_id=target_chat_id, text=html.quote(prefix))
             
             await message.answer(_("captcha_solved", locale=locale))
             
@@ -73,15 +74,52 @@ async def process_captcha(message: Message, state: FSMContext, bot: Bot, locale:
         )
 
 @router.message(F.chat.type == "private")
-async def handle_any_message(message: Message, state: FSMContext, locale: str):
+async def handle_any_message(message: Message, state: FSMContext, bot: Bot, locale: str):
     # Log everything
     db_msg_id = db.log_message(message)
     
-    # Generate captcha
-    captcha_text, captcha_img = generate_captcha()
-    
     has_media = bool(message.photo or message.video or message.document or message.audio or message.voice)
     is_text = bool(message.text)
+    
+    if settings.disable_captcha:
+        try:
+            wait_message = await message.answer(_("processing_message", locale=locale))
+            prefix = f"Forwarding, ID [{db_msg_id}]:"
+            target_chat_id = settings.group_chat_id
+            
+            if has_media:
+                new_caption = html.quote(prefix)
+                if message.caption:
+                    new_caption += f"\n{html.quote(message.caption)}"
+                
+                await bot.copy_message(
+                    chat_id=target_chat_id,
+                    from_chat_id=message.chat.id,
+                    message_id=message.message_id,
+                    caption=new_caption
+                )
+            elif is_text:
+                await bot.send_message(
+                    chat_id=target_chat_id,
+                    text=f"{html.quote(prefix)}\n{html.quote(message.text)}"
+                )
+            else:
+                await bot.copy_message(
+                    chat_id=target_chat_id,
+                    from_chat_id=message.chat.id,
+                    message_id=message.message_id
+                )
+                await bot.send_message(chat_id=target_chat_id, text=html.quote(prefix))
+            await wait_message.edit_text(_("message_processed", locale=locale))
+            return
+        except Exception as e:
+            print(f"Error forwarding without captcha: {e}")
+            # Fallback to captcha if something goes wrong? 
+            # Or just ignore. Usually, we want to proceed.
+            pass
+
+    # Generate captcha
+    captcha_text, captcha_img = generate_captcha()
     
     await state.set_state(CaptchaStates.waiting_for_captcha)
     await state.update_data(

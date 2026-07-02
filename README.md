@@ -16,7 +16,7 @@ A Telegram bot designed for secure message forwarding with captcha verification.
 1. **Clone the repository**:
    ```bash
    git clone <repository_url>
-   cd Frankenstein-bot
+   cd AWB
    ```
 
 2. **Install dependencies**:
@@ -38,6 +38,7 @@ A Telegram bot designed for secure message forwarding with captcha verification.
    - `BOT_TOKEN`: Your Telegram Bot token from @BotFather.
    - `GROUP_CHAT_ID`: The ID of the group where messages should be redirected.
    - `ADMIN_IDS`: A comma-separated list of Telegram User IDs who can access admin commands.
+   - `DISABLE_CAPTCHA`: Set to `True` to disable the captcha verification step (optional, defaults to `False`).
 
 ## Usage
 

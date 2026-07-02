@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     bot_token: SecretStr
     group_chat_id: int
     admin_ids: str
+    disable_captcha: bool = False
 
     @property
     def admins(self) -> list[int]:
