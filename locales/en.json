@@ -14,5 +14,6 @@
   "msg_details": "Message ID: {id}\nUser: {full_name} (@{username}) [ID: {user_id}]\nType: {content_type}\nTimestamp: {timestamp}\n\nContent:\n{text}",
   "id_command": "Current Chat ID: <code>{id}</code>",
   "processing_message": "Forwarding your message...",
-  "message_processed": "Forwarded!"
+  "message_processed": "Forwarded!",
+  "forwarding_prefix": "Forwarding, ID [{id}]:"
 }

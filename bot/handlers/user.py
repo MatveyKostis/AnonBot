@@ -31,7 +31,7 @@ async def process_captcha(message: Message, state: FSMContext, bot: Bot, locale:
         
         try:
             db_msg_id = data.get("db_msg_id", "N/A")
-            prefix = f"Forwarding, ID [{db_msg_id}]:"
+            prefix = _("forwarding_prefix", locale=locale, id=db_msg_id)
             target_chat_id = settings.group_chat_id
             
             if data.get('has_media'):
@@ -85,7 +85,7 @@ async def handle_any_message(message: Message, state: FSMContext, bot: Bot, loca
     if settings.disable_captcha:
         try:
             wait_message = await message.answer(_("processing_message", locale=locale))
-            prefix = f"Forwarding, ID [{db_msg_id}]:"
+            prefix = _("forwarding_prefix", locale=locale, id=db_msg_id)
             target_chat_id = settings.group_chat_id
             
             if has_media:
