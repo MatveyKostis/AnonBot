@@ -7,6 +7,12 @@ class Settings(BaseSettings):
     Application settings loaded from environment variables or a .env file.
     """
     bot_token: SecretStr
+    group_chat_id: int
+    admin_ids: str
+
+    @property
+    def admins(self) -> list[int]:
+        return [int(x.strip()) for x in self.admin_ids.split(",") if x.strip().isdigit()]
 
     # Tell Pydantic to read from a .env file if it exists, ignoring extra fields
     model_config = SettingsConfigDict(

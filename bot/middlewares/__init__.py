@@ -24,3 +24,19 @@ class LoggingMiddleware(BaseMiddleware):
         except Exception as e:
             logger.error("Error handling event %s: %s", event.__class__.__name__, e, exc_info=True)
             raise e
+
+
+class I18nMiddleware(BaseMiddleware):
+    async def __call__(
+        self,
+        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+        event: TelegramObject,
+        data: Dict[str, Any],
+    ) -> Any:
+        from_user = data.get("event_from_user")
+        if from_user and from_user.language_code:
+            data["locale"] = from_user.language_code
+        else:
+            data["locale"] = "en"
+        
+        return await handler(event, data)

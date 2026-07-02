@@ -1,0 +1,15 @@
+{
+  "welcome": "Welcome! Send me any message (text, image, video, etc.) and I will redirect it after you solve a simple captcha.",
+  "solve_captcha": "Please type the letters/numbers you see on the image to verify you're human.",
+  "redirecting": "Redirecting your message...",
+  "captcha_solved": "Captcha solved! Your message has been redirected.",
+  "captcha_error": "Captcha solved, but there was an error redirecting your message.",
+  "incorrect_captcha": "Incorrect captcha. Please try again with this new image:",
+  "stats_title": "Bot Stats:",
+  "total_users": "Total Users: {count}",
+  "no_logs": "No logs found.",
+  "recent_messages": "Recent messages:",
+  "msg_not_found": "Message with ID {id} not found.",
+  "msg_details": "Message ID: {id}\nUser: {full_name} (@{username}) [ID: {user_id}]\nType: {content_type}\nTimestamp: {timestamp}\n\nContent:\n{text}",
+  "id_command": "Current Chat ID: <code>{id}</code>"
+}
